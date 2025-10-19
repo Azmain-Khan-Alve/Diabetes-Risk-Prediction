@@ -1,0 +1,16 @@
+# Ignore the virtual environment
+/.venv
+
+# Ignore Python's cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore local test data (we don't need it in the repo)
+/test_data.json
+
+# Ignore VS Code specific files
+.vscode/
+
+# Ignore local notebook checkpoints
+.ipynb_checkpoints/

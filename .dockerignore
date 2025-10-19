@@ -1,0 +1,13 @@
+# Ignore the virtual environment
+.venv/
+
+# Ignore the notebooks and data (we don't need them for the API to run)
+notebooks/
+data/
+
+# Ignore the test data file
+test_data.json
+
+# Ignore Python's temporary cache files
+__pycache__/
+*.pyc
