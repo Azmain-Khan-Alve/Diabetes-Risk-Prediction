@@ -14,3 +14,4 @@ __pycache__/
 
 # Ignore local notebook checkpoints
 .ipynb_checkpoints/
+my_token.txt
