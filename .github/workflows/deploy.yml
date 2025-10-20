@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-to-hf-space:
-    runs-on: ubuntu-latest  # Use a standard Linux server for the robot
+    runs-on: ubuntu-latest
     steps:
       # 1. Download your code from GitHub
       - name: Checkout
@@ -16,25 +16,14 @@ jobs:
         with:
           fetch-depth: 0 # Fetch all history
 
-      # 2. Log in to Hugging Face
-      - name: Log in to Hugging Face
-        uses: docker/login-action@v3
-        with:
-          registry: hf.co
-          username: ${{ secrets.HF_USERNAME }}
-          password: ${{ secrets.HF_TOKEN }}
-
-      # 3. Add the Hugging Face Space as a "remote"
+      # 2. Add the Hugging Face Space as a "remote"
+      # This command builds the remote URL using your secrets.
+      # This is the *correct* way to authenticate for a Git push.
       - name: Add Hugging Face remote
-        env:
-          HF_USERNAME: ${{ secrets.HF_USERNAME }}
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git remote add hf "https://YOUR_HF_USERNAME:${HF_TOKEN}@huggingface.co/spaces/YOUR_HF_USERNAME/YOUR_REPO_NAME"
-          # The above line is just a template, the next line is the real one:
-          git remote set-url --add hf "https: //${{ secrets.HF_USERNAME }}:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/Alve69/diabetes-risk-prediction"
+          git remote add hf "https://c${{ secrets.HF_USERNAME }}:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/Alve69/diabetes-risk-prediction"
 
-      # 4. Force-push your code to Hugging Face
+      # 3. Force-push your code to Hugging Face
       - name: Push to Hugging Face
         run: |
           git push -f hf main
