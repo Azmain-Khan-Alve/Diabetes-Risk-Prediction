@@ -89,7 +89,7 @@ iface = gr.Interface(
     fn=predict, 
     inputs=inputs, 
     outputs=output,
-    title="Diabetes Risk Prediction",
+    title="AI Based Diabetes Risk Prediction",
     description="Enter the patient's details to predict their risk of diabetes. This tool uses a trained XGBoost model."
 )
 
