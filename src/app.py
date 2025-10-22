@@ -1,4 +1,3 @@
-
 import gradio as gr
 import pandas as pd
 import joblib
@@ -15,13 +14,11 @@ except Exception as e:
     print(f"Error loading assets: {e}")
 
 # --- 2. Define the Prediction Function ---
-# This function now ONLY returns the dictionary for the gr.Label
+# (This function remains exactly the same)
 def predict(gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level):
     if model is None or scaler is None or training_columns is None:
-        return {"Error": 1.0, "Message": "Model assets not loaded."} 
-        
+        return {"Error": 1.0, "Message": "Model assets not loaded."}
     try:
-        # --- Preprocessing ---
         input_data = {
             'gender': gender, 'age': age, 'hypertension': hypertension, 'heart_disease': heart_disease,
             'smoking_history': smoking_history, 'bmi': bmi, 'HbA1c_level': HbA1c_level,
@@ -33,56 +30,67 @@ def predict(gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1
         input_df = input_df.reindex(columns=training_columns, fill_value=0)
         scaled_features = scaler.transform(input_df)
         final_df = pd.DataFrame(scaled_features, columns=training_columns)
-
-        # --- Prediction ---
-        prediction_proba = model.predict_proba(final_df)[0] 
-
-        # --- 3. Format Output Dictionary for gr.Label ---
+        prediction_proba = model.predict_proba(final_df)[0]
         output_dict = {
-            "Prediction: No Diabetes": prediction_proba[0], # Prob class 0
-            "Prediction: Diabetes": prediction_proba[1]  # Prob class 1
+            "Prediction: No Diabetes": prediction_proba[0],
+            "Prediction: Diabetes": prediction_proba[1]
         }
-        return output_dict # Return dictionary
-
+        return output_dict
     except Exception as e:
-        return {"Error": 1.0, "Message": f"Prediction Error: {str(e)}"} 
+        return {"Error": 1.0, "Message": f"Prediction Error: {str(e)}"}
+
+# --- 3. Define the Clear Function ---
+# This function will be called when the Clear button is clicked.
+# It returns None for each input/output component to clear them.
+def clear_inputs():
+    # Return None for each input component + the output label
+    return None, None, None, None, None, None, None, None, None
 
 # --- 4. Create the Gradio Interface using gr.Blocks ---
 with gr.Blocks() as iface:
-    # Add Title and Description at the top
     gr.Markdown("# Diabetes Risk Prediction")
-    gr.Markdown("Enter the patient's details to predict their risk of diabetes.")
-    
-    # Define Input components in rows for better layout (optional)
-    with gr.Row():
-        gender = gr.Radio(['Female', 'Male', 'Other'], label="Gender")
-        age = gr.Number(label="Age")
-    with gr.Row():
-        hypertension = gr.Radio([0, 1], label="Hypertension (0=No, 1=Yes)")
-        heart_disease = gr.Radio([0, 1], label="Heart Disease (0=No, 1=Yes)")
-    with gr.Row():
-        smoking_history = gr.Dropdown(['never', 'No Info', 'current', 'former', 'ever', 'not current'], label="Smoking History")
-        bmi = gr.Number(label="BMI")
-    with gr.Row():
-        HbA1c_level = gr.Number(label="HbA1c Level")
-        blood_glucose_level = gr.Number(label="Blood Glucose Level")
+    gr.Markdown("Enter the patient's details below to predict their risk of diabetes.")
 
-    # Define the Submit Button
-    submit_button = gr.Button("Submit Prediction")
-    
-    # Define the Output Label component
-    prediction_label = gr.Label(num_top_classes=2, label="Prediction Result")
-    
-    # Define the Disclaimer Text using Markdown, placed *below* the label
-    gr.Markdown(
-        "**Disclaimer:** This AI prediction is for informational purposes only and is not a substitute for professional medical advice. Please consult a qualified healthcare provider."
+    with gr.Row():
+        # --- Left Column: Inputs ---
+        with gr.Column(scale=1):
+            # Define input components
+            gender = gr.Radio(['Female', 'Male', 'Other'], label="Gender")
+            age = gr.Number(label="Age")
+            hypertension = gr.Radio([0, 1], label="Hypertension (0=No, 1=Yes)")
+            heart_disease = gr.Radio([0, 1], label="Heart Disease (0=No, 1=Yes)")
+            smoking_history = gr.Dropdown(['never', 'No Info', 'current', 'former', 'ever', 'not current'], label="Smoking History")
+            bmi = gr.Number(label="BMI")
+            HbA1c_level = gr.Number(label="HbA1c Level")
+            blood_glucose_level = gr.Number(label="Blood Glucose Level")
+
+            # --- Add Buttons ---
+            with gr.Row(): # Put buttons side-by-side
+                submit_button = gr.Button("Submit Prediction")
+                clear_button = gr.Button("Clear Inputs") # NEW Clear Button
+
+        # --- Right Column: Outputs ---
+        with gr.Column(scale=1):
+            prediction_label = gr.Label(num_top_classes=2, label="Prediction Result")
+            gr.Markdown(
+                "**Disclaimer:** This AI prediction is for informational purposes only..." # Shortened for brevity
+            )
+
+    # List all input components + the output component
+    all_components = [gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level, prediction_label]
+
+    # Link the Submit button click event
+    submit_button.click(
+        fn=predict,
+        inputs=all_components[:-1], # Pass only inputs to predict function
+        outputs=[prediction_label]
     )
 
-    # Link the button click event to the prediction function
-    submit_button.click(
-        fn=predict,  # Function to call when button is clicked
-        inputs=[gender, age, hypertension, heart_disease, smoking_history, bmi, HbA1c_level, blood_glucose_level], # List of input components
-        outputs=[prediction_label] # List of output components to update
+    # Link the Clear button click event
+    clear_button.click(
+        fn=clear_inputs,
+        inputs=[], # Clear function takes no inputs
+        outputs=all_components # Clear all input and output components
     )
 
 # --- 5. Launch the App ---
@@ -94,9 +102,8 @@ iface.launch(server_name="0.0.0.0", server_port=7860)
 
 
 
-
 #=========================================================================
-#==========The Old One (FLASKAPI)===========
+#==========The Old One (GR Interface)===========
 # 
 # 
 # # import gradio as gr
