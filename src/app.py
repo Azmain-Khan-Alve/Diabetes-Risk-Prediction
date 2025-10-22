@@ -73,7 +73,7 @@ with gr.Blocks() as iface:
         with gr.Column(scale=1):
             prediction_label = gr.Label(num_top_classes=2, label="Prediction Result")
             gr.Markdown(
-                "**Disclaimer:** This AI prediction is for informational purposes only..." # Shortened for brevity
+                "**Disclaimer:** This AI prediction is for informational purposes only and is not a substitute for professional medical advice. Please consult a qualified healthcare provider."
             )
 
     # List all input components + the output component
