@@ -66,7 +66,7 @@ with gr.Blocks() as iface:
 
             # --- Add Buttons ---
             with gr.Row(): # Put buttons side-by-side
-                submit_button = gr.Button("Submit Prediction")
+                submit_button = gr.Button("Submit Prediction", variant="primary")
                 clear_button = gr.Button("Clear Inputs") # NEW Clear Button
 
         # --- Right Column: Outputs ---
