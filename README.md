@@ -1,21 +1,9 @@
-You're right to want to improve your README\! The example you provided uses several key markdown techniques to look more professional, clean, and easy to read.
+---
+title: Diabetes Risk Prediction
+sdk: docker
+app_port: 7860
+---
 
-Here's a breakdown of the *key changes* I'll make, based on the example you liked:
-
-1.  **Horizontal Rules (`---`):** The example README uses horizontal rules (`---`) to visually separate major sections (like "Features," "Architecture," "Getting Started," etc.). This dramatically improves readability.
-2.  **Code Block Syntax Highlighting:** This is a major one you pointed out. All shell commands (`git clone`, `pip install`, `docker run`, `curl`) should be in fenced code blocks with the `bash` language identifier. API responses should use `json`. This adds color and makes commands easy to copy.
-3.  **Bolding Key Terms:** The example bolds important terms, filenames (`app.py`), and concepts (`FastAPI`, `Streamlit`). This draws the user's eye to the most important information.
-4.  **Tech Stack Table:** Your "Tech Stack" is a bullet list. The example uses a Markdown table, which looks much more organized and professional. I will convert yours to a table.
-5.  **Project Structure Formatting:** Your project structure is plain text. The example formats it as a `tree`-like structure inside a code block, which is the standard and much clearer.
-6.  **Clearer "Getting Started" Steps:** The example's "Getting Started" section is very clear, with numbered steps and distinct code blocks for each command. I will reformat your installation steps to follow this pattern.
-7.  **Images:** The example has multiple screenshots. While I can't add your screenshot for you, I'll make the placeholder more prominent so you remember to add it.
-8.  **Standard ToC Links:** I'll update your Table of Contents to use standard GitHub-style anchor links (e.g., `#problem-statement`) instead of the `#bookmark=...` links, which are less portable.
-
------
-
-Here is the revised, more professional Markdown code for your project.
-
------
 
 # **Diabetes Risk Prediction Web Application**
 
@@ -49,7 +37,7 @@ This repository contains the code for an end-to-end machine learning application
 -----
 
 ## **Demo Screenshot**
-
+(https://github.com/Azmain-Khan-Alve/Diabetes-Risk-Prediction/blob/main/Gradio_demo.png)
 -----
 
 ## **Problem Statement**
@@ -255,7 +243,7 @@ This application is automatically deployed to **Hugging Face Spaces** via a GitH
 
 The model was trained on the "Diabetes prediction dataset" from Kaggle.
 
-  * **Dataset Link:** `[https://www.kaggle.com/datasets/YOUR_DATASET_LINK]`
+  * **Dataset Link:** `[https://www.kaggle.com/datasets/LINK]`
 
 -----
 
