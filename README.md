@@ -37,7 +37,7 @@ This repository contains the code for an end-to-end machine learning application
 -----
 
 ## **Demo Screenshot**
-(https://github.com/Azmain-Khan-Alve/Diabetes-Risk-Prediction/blob/main/Gradio_demo.png)
+![Gradio App Screenshot](https://github.com/Azmain-Khan-Alve/Diabetes-Risk-Prediction/blob/main/Gradio_demo.png)
 -----
 
 ## **Problem Statement**
